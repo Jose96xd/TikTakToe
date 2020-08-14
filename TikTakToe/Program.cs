@@ -5,18 +5,21 @@ namespace TikTakToe
 {
     /* This is how the map is going to look like: 2 spaces between walls and signs and 0 between floor and signs.
      * 
-         *                                          Withd = 13
-         *                                        ,111,111,111,
-         *                             Ceiling 1  ╔═══╦═══╦═══╗ ,
-         *                                        ║ X ║ X ║ X ║ 1    Y = 1
-         *                         Block1    ╔    ╠═══╬═══╬═══╣ ,          
-         *            Height = 7             ╚    ║ X ║ X ║ X ║ 1    Y = 3              
-         *                         Block2    ╔    ╠═══╬═══╬═══╣ ,                 
-         *                                   ╚    ║ X ║ X ║ X ║ 1    Y = 5                  
-         *                              Floor3    ╚═══╩═══╩═══╝ ,                                                                                                     
-         *                                        x = 2, 6, 10.
-         *  The areas where the user can answer are (∀X, Y /  X = 2 + 4λ  &  Y = 1 + 2λ)  with λ ϵ [0-2].  
-         */
+     *                                          Withd = 13
+     *                                        ,111,111,111,
+     *                             Ceiling 1  ╔═══╦═══╦═══╗ ,
+     *                                        ║ X ║ X ║ X ║ 1    Y = 1
+     *                         Block1    ╔    ╠═══╬═══╬═══╣ ,          
+     *            Height = 7             ╚    ║ X ║ X ║ X ║ 1    Y = 3              
+     *                         Block2    ╔    ╠═══╬═══╬═══╣ ,                 
+     *                                   ╚    ║ X ║ X ║ X ║ 1    Y = 5                  
+     *                              Floor3    ╚═══╩═══╩═══╝ ,                                                                                                     
+     *                                        x = 2, 6, 10.
+     *  The areas where the user can answer are (∀X, Y /  X = 2 + horizontalCenteringValue + 4λ  
+     *                                                  &  Y = 1 + verticalCenteringValue + 2λ)  with λ ϵ [0-2]. 
+     *  
+     *  
+     */
 
     class Program
     {   
