@@ -38,8 +38,8 @@ namespace TikTakToe
         }
 
         // We are going to have 2 sets of colors (for backGround and foreGround) to change between them every time we restart the game.
-        ConsoleColor currentBackgroundColor = ConsoleColor.Black, nextBackgroundColor = ConsoleColor.Gray;
-        ConsoleColor currentForegroundColor = ConsoleColor.White, nextForegroundColor = ConsoleColor.DarkBlue;
+        ConsoleColor currentBackgroundColor = ConsoleColor.Black, nextBackgroundColor = ConsoleColor.DarkCyan;
+        ConsoleColor currentForegroundColor = ConsoleColor.White, nextForegroundColor = ConsoleColor.White;
 
         int horizontalCenteringValue, verticalCenteringValue;
         int distanceBetweenRows, distanceBetweenCollumns;           // The distance between  the places where the user can place their sings.
@@ -74,27 +74,10 @@ namespace TikTakToe
             GameLoop();
         }
 
-        // This method initialize some filds and ask the user which sing want to play with (either X or O) and if they want to play agains other humar or the AI.
-        private void SetInitialSettings(bool firstMatch)
+        // Ask the player with which sign they want to play between X and O. 
+        // If the player answers with an incorrect sign, ask again until they answer something valid 
+        private void SetPlayersSing()
         {
-            currentPositionX = currentPositionY = 0;
-            currentGameState = GameStatus.NothingYet;
-
-            if (firstMatch)
-            {
-                scorePlayer1 = 0;
-                scorePlayer2 = 0;
-            }
-
-            gameBoard = new char[][] { new[] { ' ', ' ', ' ' }, new[] { ' ', ' ', ' ' }, new[] { ' ', ' ', ' ' } };
-
-
-            Console.BackgroundColor = currentBackgroundColor;
-            Console.ForegroundColor = currentForegroundColor;
-
-            Console.Clear();
-
-            // Asking what sing the user wants (between X and O) and giving the other to the second player or to the AI.
             Console.WriteLine("What sing do you want to play with? (O/X)\nClick the corresponding key.");
             firstPlayerKeyInfo = Console.ReadKey(true);
             Console.WriteLine();
@@ -113,8 +96,11 @@ namespace TikTakToe
             currentPlayerKeyInfo = firstPlayerKeyInfo;
 
             Console.Clear();
+        }
 
-
+        // Ask the player if they want to play against other human or against the AI.
+        private void SetGameMode()
+        {
             ConsoleKey userModeSelectionAnswer;
 
             // Asking which game mode the user wants to play.
@@ -128,8 +114,31 @@ namespace TikTakToe
             }
             isAgainstAI = userModeSelectionAnswer.Equals(ConsoleKey.I) ? true : false;
 
+            Console.Clear();
+        }
+
+        // This method initialize some filds and ask the user which sing want to play with (either X or O) and if they want to play agains other humar or the AI.
+        private void SetInitialSettings(bool firstMatch)
+        {
+            currentPositionX = currentPositionY = 0;
+            currentGameState = GameStatus.NothingYet;
+
+            if (firstMatch)         // If this is not the first game we should not delete the scores.
+            {
+                scorePlayer1 = 0;
+                scorePlayer2 = 0;
+            }
+
+            gameBoard = new char[][] { new[] { ' ', ' ', ' ' }, new[] { ' ', ' ', ' ' }, new[] { ' ', ' ', ' ' } };
+
+
+            Console.BackgroundColor = currentBackgroundColor;
+            Console.ForegroundColor = currentForegroundColor;
 
             Console.Clear();
+
+            SetPlayersSing();
+            SetGameMode();
         }
 
         // This method prints all the board in the screen centering in the middle.
