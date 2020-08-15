@@ -45,7 +45,7 @@ namespace TikTakToe
         ConsoleColor currentForegroundColor = ConsoleColor.White, nextForegroundColor = ConsoleColor.White;
 
         int horizontalCenteringValue, verticalCenteringValue;
-        int distanceBetweenRows, distanceBetweenCollumns;           // The distance between  the places where the user can place their signs.
+        int distanceBetweenRows, distanceBetweenColumns;           // The distance between  the places where the user can place their signs.
         int currentPositionX, currentPositionY;                     // This is to print in the screen.
         int scorePlayer1, scorePlayer2;
 
@@ -60,7 +60,7 @@ namespace TikTakToe
         string infoString = "Tic Tac Toe by José96xd in C#. August 2020.";
         string turnString = "Is the turn of ";
         string winnerString = "And the winner is ";
-        string tieString    = "Ups, Nobody has win...";
+        string tieString    = "Ups, No one has won...";
 
         private char[][] gameBoard;     
 
@@ -87,7 +87,7 @@ namespace TikTakToe
 
             while (!firstPlayerKeyInfo.Key.Equals(ConsoleKey.X) && !firstPlayerKeyInfo.Key.Equals(ConsoleKey.O))
             {
-                Console.WriteLine("Thats not a valid sign, please choose between O and X.");
+                Console.WriteLine("That's not a valid sign, please choose between O and X.");
                 firstPlayerKeyInfo = Console.ReadKey(true);
             }
 
@@ -112,7 +112,7 @@ namespace TikTakToe
 
             while (!userModeSelectionAnswer.Equals(ConsoleKey.I) && !userModeSelectionAnswer.Equals(ConsoleKey.M))
             {
-                Console.WriteLine("Thats not a valid option, please choose between I and M.");
+                Console.WriteLine("That's not a valid option, please choose between 'I' and 'M'.");
                 userModeSelectionAnswer = Console.ReadKey().Key;
             }
             isAgainstAI = userModeSelectionAnswer.Equals(ConsoleKey.I) ? true : false;
@@ -157,7 +157,7 @@ namespace TikTakToe
 
             horizontalCenteringValue = (Console.BufferWidth - Ceiling.Length) / 2;      // This two variables are used to center the game.
             verticalCenteringValue = horizontalCenteringValue / 6;
-            distanceBetweenCollumns = 4;
+            distanceBetweenColumns = 4;
             distanceBetweenRows = 2;
 
             char[][] boardDecorations = new char[][] { Ceiling.ToCharArray(), Walls.ToCharArray(), MiddleSection.ToCharArray(), Walls.ToCharArray(),
@@ -185,15 +185,15 @@ namespace TikTakToe
             Console.Write(infoString);
 
             // Control message.
-            Console.SetCursorPosition((horizontalCenteringValue + (3 * distanceBetweenCollumns) + (controlsString.Length / 2)), verticalCenteringValue + distanceBetweenRows);
+            Console.SetCursorPosition((horizontalCenteringValue + (3 * distanceBetweenColumns) + (controlsString.Length / 2)), verticalCenteringValue + distanceBetweenRows);
             Console.Write(controlsString);
 
             // Score Player1 sign.
-            Console.SetCursorPosition((scorePlayer1String.Length / 2) + distanceBetweenCollumns, verticalCenteringValue + distanceBetweenRows);
+            Console.SetCursorPosition((scorePlayer1String.Length / 2) + distanceBetweenColumns, verticalCenteringValue + distanceBetweenRows);
             Console.Write(scorePlayer1String + scorePlayer1);
 
             // Score Player2 sign.
-            Console.SetCursorPosition((scorePlayer2String.Length / 2) + distanceBetweenCollumns, verticalCenteringValue + (2 * distanceBetweenRows));
+            Console.SetCursorPosition((scorePlayer2String.Length / 2) + distanceBetweenColumns, verticalCenteringValue + (2 * distanceBetweenRows));
             Console.Write(scorePlayer2String + scorePlayer2);
 
 
@@ -232,7 +232,7 @@ namespace TikTakToe
                     break;
 
                 case ConsoleKey.LeftArrow:
-                    if (Console.CursorLeft - distanceBetweenCollumns > horizontalCenteringValue)
+                    if (Console.CursorLeft - distanceBetweenColumns > horizontalCenteringValue)
                     {
                         currentPositionX -= 1;
                     }
@@ -256,12 +256,12 @@ namespace TikTakToe
             }
 
             // The two hard codded numbers (2 and 1) are necessary and are explained in the drawing above from the beginning.
-            Console.SetCursorPosition((horizontalCenteringValue + 2) + (currentPositionX * distanceBetweenCollumns), (verticalCenteringValue + 1) + (currentPositionY * distanceBetweenRows));
+            Console.SetCursorPosition((horizontalCenteringValue + 2) + (currentPositionX * distanceBetweenColumns), (verticalCenteringValue + 1) + (currentPositionY * distanceBetweenRows));
 
         }
 
         // This method swap the background and foreground colors between two sets.
-        // Its called once per restart to add some variety.
+        // It's called once per restart to add some variety.
         private void Swap<T>(ref T object1, ref T object2)
         {
             T aux = object1;
@@ -339,13 +339,13 @@ namespace TikTakToe
             if ( (board[2][0] == board[1][1] && board[1][1] == board[0][2]) && !(WhoIsTheWinner(board[1][1]).Equals(GameStatus.NothingYet)))   // Checking the second diagonal '/'.
                 return WhoIsTheWinner(board[1][1]);
 
-            if (possibleMoves.Count == 0 )     // Checking if there is no more available moves and no ones has win (a tie situation).
+            if (possibleMoves.Count == 0 )     // Checking if there is no more available moves and no ones has won (a tie situation).
                 return GameStatus.Tie;
 
             return GameStatus.NothingYet;
         }
 
-        // Prints the winner of the game whenever someone has win or when a tie situation is reached.
+        // Prints the winner of the game whenever someone has won or when a tie situation is reached.
         // It also clears the Player's turn message to show who has won.
         private void DisplayWinnerMessage(GameStatus currentStatus)
         {
@@ -399,18 +399,18 @@ namespace TikTakToe
             int oldRow = Console.CursorTop, oldCollumn = Console.CursorLeft;
 
             // Score Player1 sign.
-            Console.SetCursorPosition((scorePlayer1String.Length + 1) / 2 + distanceBetweenCollumns + scorePlayer1String.Length, verticalCenteringValue + distanceBetweenRows);
+            Console.SetCursorPosition((scorePlayer1String.Length + 1) / 2 + distanceBetweenColumns + scorePlayer1String.Length, verticalCenteringValue + distanceBetweenRows);
             Console.Write(scorePlayer1);
 
             // Score Player2 sign.
-            Console.SetCursorPosition((scorePlayer2String.Length + 1) / 2 + distanceBetweenCollumns + scorePlayer2String.Length, verticalCenteringValue + (2 * distanceBetweenRows));
+            Console.SetCursorPosition((scorePlayer2String.Length + 1) / 2 + distanceBetweenColumns + scorePlayer2String.Length, verticalCenteringValue + (2 * distanceBetweenRows));
             Console.Write(scorePlayer2);
 
             Console.SetCursorPosition(oldCollumn, oldRow);
         }
 
         // This method combines both, the UpdateScoreMessage and the ChecForWinner.
-        // First it updates the game status to see if someone has already win or if we are in a tie situation.
+        // First it updates the game status to see if someone has already won or if we are in a tie situation.
         // Then if we are in a terminal situation, it prints the situation in the screen and, if needed, update the score.
         // Returns True if the game can continue or false if there is already a winner or a tie situation.
         private bool UpdateScoresAndCheckWinners()
@@ -438,7 +438,7 @@ namespace TikTakToe
         }
 
         // Gets the input of the user (the user sign or the restart/escape options) and then
-        // it checks to only allow the sign of the current player and to only allow it if the position if empty.
+        // it checks to only allow the sign of the current player and to only allow it if the position is empty.
         private bool InputAnswer(ConsoleKeyInfo InputKey)
         {
             bool turnHasPassed = false;
@@ -477,7 +477,7 @@ namespace TikTakToe
             {
                 currentPlayerKeyInfo = firstPlayerKeyInfo;
             }
-            // Player turn sign.        We only overwrite the current player sign, thats why we add turnString.Length, to set the Console Cursor to the position of the sign.
+            // Player turn sign.        We only overwrite the current player sign, that's why we add turnString.Length, to set the Console Cursor to the position of the sign.
             Console.SetCursorPosition(((Console.BufferWidth - turnString.Length) / 2) + turnString.Length, verticalCenteringValue / 2);
             Console.Write(Char.ToUpper(currentPlayerKeyInfo.KeyChar));
             Console.SetCursorPosition(oldCollumn, oldRow);
@@ -544,7 +544,7 @@ namespace TikTakToe
         }
 
         // We use the MiniMax algorithm to find the best possible move and then we do it.
-        // Returns the boolean of the UpdateScoreAndCheckForWinners() so we can check if there is already a winner or a tie situation.
+        // Returns the same boolean of the UpdateScoreAndCheckForWinners() so we can check if there is already a winner or a tie situation.
         private bool AIMove()
         {
             int oldTop = Console.CursorTop, oldLeft = Console.CursorLeft;
@@ -567,7 +567,7 @@ namespace TikTakToe
             }
 
             // The hard-codded numbers 2 and 1 are necessary to adjust the array logic and the screen. They are explicated in the drawing at the top.
-            Console.SetCursorPosition(horizontalCenteringValue + 2 + (bestCoordinate.X * distanceBetweenCollumns), verticalCenteringValue + 1 + (bestCoordinate.Y * distanceBetweenRows) );
+            Console.SetCursorPosition(horizontalCenteringValue + 2 + (bestCoordinate.X * distanceBetweenColumns), verticalCenteringValue + 1 + (bestCoordinate.Y * distanceBetweenRows) );
             Console.Write(Char.ToUpper(secondPlayerKeyInfo.KeyChar));
             gameBoard[bestCoordinate.Y][bestCoordinate.X] = secondPlayerKeyInfo.KeyChar;
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
