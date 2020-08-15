@@ -5,7 +5,7 @@ namespace TikTakToe
 {
     /* This is how the map is going to look like: 2 spaces between walls and signs and 0 between floor and signs.
      * 
-     *                                          Withd = 13
+     *                                          Width = 13
      *                                        ,111,111,111,
      *                             Ceiling 1  ╔═══╦═══╦═══╗ ,
      *                                        ║ X ║ X ║ X ║ 1    Y = 1
@@ -29,7 +29,7 @@ namespace TikTakToe
 
         GameStatus currentGameState;                // The current status of the game, either the game is finished or NothingYet.
 
-        // A struct to save all the posible locations where a player can place their sing.
+        // A little class to save all the possible locations where a player can place their sing.
         class Coordinate                    
         {
             public int X, Y;
@@ -50,9 +50,9 @@ namespace TikTakToe
         int scorePlayer1, scorePlayer2;
 
         bool isAgainstAI;                                         // If the game is multiplayer then each turn is played by a user.
-                                                                    // If is not multiplayer then one of the turn is played by the IA.
+                                                                  // If is not multiplayer then one of the turn is played by the IA.
 
-        
+
         string gameFinishString = "Game finished !!!";
         string scorePlayer1String = "Player1 score is: ";
         string scorePlayer2String = "Player2 score is: ";
@@ -67,7 +67,7 @@ namespace TikTakToe
         // The first player, second player and the player which turn is the actual one.
         ConsoleKeyInfo firstPlayerKeyInfo, secondPlayerKeyInfo, currentPlayerKeyInfo;   
 
-        // This method invoke all the necesary methods in the correct order to start the game.
+        // This method invoke all the necessary methods in the correct order to start the game.
         public void Run()
         {
             SetInitialSettings(true);
@@ -107,7 +107,7 @@ namespace TikTakToe
             ConsoleKey userModeSelectionAnswer;
 
             // Asking which game mode the user wants to play.
-            Console.WriteLine("Do you want to play agains my ultra-advanced AI or agains other human? (I = Against Ai;  M = Multiplayer;).");
+            Console.WriteLine("Do you want to play again my ultra-advanced AI or again other human? (I = Against AI;  M = Multiplayer;).");
             userModeSelectionAnswer = Console.ReadKey().Key;
 
             while (!userModeSelectionAnswer.Equals(ConsoleKey.I) && !userModeSelectionAnswer.Equals(ConsoleKey.M))
@@ -120,7 +120,7 @@ namespace TikTakToe
             Console.Clear();
         }
 
-        // This method initialize some filds and ask the user which sing want to play with (either X or O) and if they want to play agains other humar or the AI.
+        // This method initialize some fields and ask the user which sing want to play with (either X or O) and if they want to play again other human or the AI.
         private void SetInitialSettings(bool firstMatch)
         {
             currentPositionX = currentPositionY = 0;
@@ -152,7 +152,7 @@ namespace TikTakToe
 
             string Ceiling         = "╔═══╦═══╦═══╗";
             string Walls           = "║   ║   ║   ║";      // This middle section needs to be repeated 2 times.
-            string MiddleSection   = "╠═══╬═══╬═══╣";      // In the end is going to be: Ceiling-Wals; Middle-Walls x 2; Floor.
+            string MiddleSection   = "╠═══╬═══╬═══╣";      // In the end is going to be: Ceiling-Walls; Middle-Walls x 2; Floor.
             string Floor           = "╚═══╩═══╩═══╝";
 
             horizontalCenteringValue = (Console.BufferWidth - Ceiling.Length) / 2;      // This two variables are used to center the game.
@@ -326,9 +326,9 @@ namespace TikTakToe
                     return WhoIsTheWinner(board[i][0]);
             }
 
-            for (int j = 0; j < 3 ; j++) // Checking the collumns.
+            for (int j = 0; j < 3 ; j++) // Checking the columns.
             {
-                if ( (board[0][j] == board[1][j] && board[0][j] == board[2][j]) && !(WhoIsTheWinner(board[0][j]).Equals(GameStatus.NothingYet)) )   // Checking collumns.
+                if ( (board[0][j] == board[1][j] && board[0][j] == board[2][j]) && !(WhoIsTheWinner(board[0][j]).Equals(GameStatus.NothingYet)) )   // Checking columns.
                     return WhoIsTheWinner(board[0][j]);
             }
 
@@ -350,28 +350,31 @@ namespace TikTakToe
             int oldTop = Console.CursorTop, oldLeft = Console.CursorLeft;
             Console.BackgroundColor = currentBackgroundColor;
             Console.ForegroundColor = currentForegroundColor;
+            String finalWinnerString = string.Empty;
 
-            Console.SetCursorPosition((Console.BufferWidth - winnerString.Length - 4) / 2, verticalCenteringValue / 2);
 
             switch(currentStatus)
             {
                 case GameStatus.X:
-                    Console.Write(winnerString + "X!!!");
+                    finalWinnerString = winnerString + "X!!!";
                     break;
                         
                 case GameStatus.O:
-                    Console.Write(winnerString + "O!!!");
+                    finalWinnerString = winnerString + "O!!!";
                     break;
                 
                 case GameStatus.Tie:
-                    Console.Write(tieString);
+                    finalWinnerString = tieString;
                     break;
             }
+
+            Console.SetCursorPosition((Console.BufferWidth - finalWinnerString.Length) / 2, verticalCenteringValue / 2);
+            Console.Write(finalWinnerString);
 
             Console.SetCursorPosition(oldLeft, oldTop);
         }
 
-        // Prints the user sing in the 
+        // Prints the user sing in the correspondent place of the screen.  
         private void WritePlayerSing(ConsoleKeyInfo playerKeyInfo)
         {
             Console.Write(playerKeyInfo.KeyChar.ToString().ToUpper());
@@ -385,7 +388,7 @@ namespace TikTakToe
             Console.SetCursorPosition((Console.BufferWidth - gameFinishString.Length) / 2, (2 * verticalCenteringValue));   
             Console.Write(gameFinishString);
             Console.SetCursorPosition(0, 3 * verticalCenteringValue + 2);       // After printing the string we move the Console.Cursor to a position far away of the map 
-                                                                                // to prevent any system string messing the screeb.
+                                                                                // to prevent any system string messing the screen.
         }
 
         // Updates the score messages with the new scores.
@@ -405,7 +408,7 @@ namespace TikTakToe
         }
 
         // This method combines both, the UpdateScoreMessage and the ChecForWinner.
-        // First it updates the game status to see if someone has alredy win or if we are in a tie situation.
+        // First it updates the game status to see if someone has already win or if we are in a tie situation.
         // Then if we are in a terminal situation, it prints the situation in the screen and, if needed, update the score.
         // Returns True if the game can continue or false if there is already a winner or a tie situation.
         private bool UpdateScoresAndCheckWinners()
@@ -433,7 +436,7 @@ namespace TikTakToe
         }
 
         // Gets the input of the user (the user sing or the restart/escape option) and then
-        // it checks to only allow the sing of the current turn and to onlt allow it if the position if empty.
+        // it checks to only allow the sing of the current turn and to only allow it if the position if empty.
         private bool InputAnswer(ConsoleKeyInfo InputKey)
         {
             bool turnHasPassed = false;
@@ -472,7 +475,7 @@ namespace TikTakToe
             {
                 currentPlayerKeyInfo = firstPlayerKeyInfo;
             }
-            // Player turn sing.
+            // Player turn sing.        We only overwrite the current player sing, thats why we add turnString.Length, to set the Console Cursor to the position of the sign.
             Console.SetCursorPosition(((Console.BufferWidth - turnString.Length) / 2) + turnString.Length, verticalCenteringValue / 2);
             Console.Write(Char.ToUpper(currentPlayerKeyInfo.KeyChar));
             Console.SetCursorPosition(oldCollumn, oldRow);
@@ -492,7 +495,7 @@ namespace TikTakToe
                 case GameStatus.Tie:
                     return 0;
                     break;
-                case GameStatus.O:                                       // Original was +1 : -1 which doesnt take into acount the time it takes to win.
+                case GameStatus.O:                                       // Original was +1 : -1 which didn't take into account the time it takes to win.
                     return secondPlayerKeyInfo.Key.Equals(ConsoleKey.O) ? int.MaxValue - depth : int.MinValue + depth;
                     break;
                 case GameStatus.X:                                       // Original was +1 : -1 
@@ -560,6 +563,7 @@ namespace TikTakToe
 
             }
 
+            // The hard-codded numbers 2 and 1 are necessary to adjust the array logic and the screen. They are explicated in the drawing at the top.
             Console.SetCursorPosition(horizontalCenteringValue + 2 + (bestCoordinate.X * distanceBetweenCollumns), verticalCenteringValue + 1 + (bestCoordinate.Y * distanceBetweenRows) );
             Console.Write(Char.ToUpper(secondPlayerKeyInfo.KeyChar));
             gameBoard[bestCoordinate.Y][bestCoordinate.X] = secondPlayerKeyInfo.KeyChar;
@@ -573,7 +577,7 @@ namespace TikTakToe
             return turnHasPassed;
         }
 
-        // This is the game loop where we check for user input and react in consecuense.
+        // This is the game loop where we check for user input and react in consequence.
         private void GameLoop()
         {
             ConsoleKeyInfo userAnswer = new ConsoleKeyInfo();
