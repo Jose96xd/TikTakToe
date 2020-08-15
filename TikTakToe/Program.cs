@@ -45,7 +45,7 @@ namespace TikTakToe
         ConsoleColor currentForegroundColor = ConsoleColor.White, nextForegroundColor = ConsoleColor.White;
 
         int horizontalCenteringValue, verticalCenteringValue;
-        int distanceBetweenRows, distanceBetweenCollumns;           // The distance between  the places where the user can place their sings.
+        int distanceBetweenRows, distanceBetweenCollumns;           // The distance between  the places where the user can place their signs.
         int currentPositionX, currentPositionY;                     // This is to print in the screen.
         int scorePlayer1, scorePlayer2;
 
@@ -79,15 +79,15 @@ namespace TikTakToe
 
         // Ask the player with which sign they want to play between X and O. 
         // If the player answers with an incorrect sign, ask again until they answer something valid 
-        private void SetPlayersSing()
+        private void SetPlayersSign()
         {
-            Console.WriteLine("What sing do you want to play with? (O/X)\nClick the corresponding key.");
+            Console.WriteLine("What sign do you want to play with? (O/X)\nClick the corresponding key.");
             firstPlayerKeyInfo = Console.ReadKey(true);
             Console.WriteLine();
 
             while (!firstPlayerKeyInfo.Key.Equals(ConsoleKey.X) && !firstPlayerKeyInfo.Key.Equals(ConsoleKey.O))
             {
-                Console.WriteLine("Thats not a valid sing, please choose between O and X.");
+                Console.WriteLine("Thats not a valid sign, please choose between O and X.");
                 firstPlayerKeyInfo = Console.ReadKey(true);
             }
 
@@ -107,7 +107,7 @@ namespace TikTakToe
             ConsoleKey userModeSelectionAnswer;
 
             // Asking which game mode the user wants to play.
-            Console.WriteLine("Do you want to play again my ultra-advanced AI or again other human? (I = Against AI;  M = Multiplayer;).");
+            Console.WriteLine("Do you want to play against my ultra-advanced AI or again other human? (I = Against AI;  M = Multiplayer;).");
             userModeSelectionAnswer = Console.ReadKey().Key;
 
             while (!userModeSelectionAnswer.Equals(ConsoleKey.I) && !userModeSelectionAnswer.Equals(ConsoleKey.M))
@@ -120,7 +120,7 @@ namespace TikTakToe
             Console.Clear();
         }
 
-        // This method initialize some fields and ask the user which sing want to play with (either X or O) and if they want to play again other human or the AI.
+        // This method initialize some fields and ask the user which sign want to play with (either X or O) and if they want to play against other human or the AI.
         private void SetInitialSettings(bool firstMatch)
         {
             currentPositionX = currentPositionY = 0;
@@ -140,7 +140,7 @@ namespace TikTakToe
 
             Console.Clear();
 
-            SetPlayersSing();
+            SetPlayersSign();
             SetGameMode();
         }
 
@@ -174,30 +174,30 @@ namespace TikTakToe
             }
         }
 
-        // Prints the initial messages (Current player, score of both players, control keys, and author.
+        // Prints the initial messages (Current player, score of both players, control keys, and author).
         private void PrintInitialMessages()
         {
             Console.BackgroundColor = currentBackgroundColor;
             Console.ForegroundColor = currentForegroundColor;
 
-            // Info sing
+            // Info message.
             Console.SetCursorPosition((Console.BufferWidth - infoString.Length) / 2, 3 * verticalCenteringValue);
             Console.Write(infoString);
 
-            // Control sing.
+            // Control message.
             Console.SetCursorPosition((horizontalCenteringValue + (3 * distanceBetweenCollumns) + (controlsString.Length / 2)), verticalCenteringValue + distanceBetweenRows);
             Console.Write(controlsString);
 
-            // Score Player1 sing.
-            Console.SetCursorPosition((scorePlayer1String.Length + 1) / 2 + distanceBetweenCollumns, verticalCenteringValue + distanceBetweenRows);
+            // Score Player1 sign.
+            Console.SetCursorPosition((scorePlayer1String.Length / 2) + distanceBetweenCollumns, verticalCenteringValue + distanceBetweenRows);
             Console.Write(scorePlayer1String + scorePlayer1);
 
-            // Score Player2 sing.
-            Console.SetCursorPosition((scorePlayer2String.Length + 1) / 2 + distanceBetweenCollumns, verticalCenteringValue + (2 * distanceBetweenRows));
+            // Score Player2 sign.
+            Console.SetCursorPosition((scorePlayer2String.Length / 2) + distanceBetweenCollumns, verticalCenteringValue + (2 * distanceBetweenRows));
             Console.Write(scorePlayer2String + scorePlayer2);
 
 
-            // Player turn sing.
+            // Player turn message.
             Console.SetCursorPosition((Console.BufferWidth - turnString.Length) / 2, verticalCenteringValue / 2);
             Console.Write(turnString + Char.ToUpper(currentPlayerKeyInfo.KeyChar) );
             Console.SetCursorPosition(horizontalCenteringValue + 2, verticalCenteringValue + 1);
@@ -255,6 +255,7 @@ namespace TikTakToe
 
             }
 
+            // The two hard codded numbers (2 and 1) are necessary and are explained in the drawing above from the beginning.
             Console.SetCursorPosition((horizontalCenteringValue + 2) + (currentPositionX * distanceBetweenCollumns), (verticalCenteringValue + 1) + (currentPositionY * distanceBetweenRows));
 
         }
@@ -302,7 +303,7 @@ namespace TikTakToe
             return posibleMovesList;
         }
 
-        // Returns the sing of the winner. Is called once we have verified that there are 3 equal sings in line.
+        // Returns the sign of the winner. Is called once we have verified that there are 3 equal signs in line.
         private GameStatus WhoIsTheWinner(char aux)
         {
             GameStatus winner = GameStatus.NothingYet;
@@ -315,7 +316,7 @@ namespace TikTakToe
             return winner;
         }
 
-        // Checks all columns, rows and diagonals to check if there are 3 equal sings. In that case it calls the WhoIsTheWinner() method and returns the winner sing.
+        // Checks all columns, rows and diagonals to check if there are 3 equal signs. In that case it calls the WhoIsTheWinner() method and returns the winner sign.
         private GameStatus CheckForWiners(char[][] board)
         {
             List<Coordinate> possibleMoves = PossibleMoves(board);
@@ -344,7 +345,8 @@ namespace TikTakToe
             return GameStatus.NothingYet;
         }
 
-        // Prints the winner of the game whenever someone has win. It also clears the Player's turn message to show who has won.
+        // Prints the winner of the game whenever someone has win or when a tie situation is reached.
+        // It also clears the Player's turn message to show who has won.
         private void DisplayWinnerMessage(GameStatus currentStatus)
         {
             int oldTop = Console.CursorTop, oldLeft = Console.CursorLeft;
@@ -374,8 +376,8 @@ namespace TikTakToe
             Console.SetCursorPosition(oldLeft, oldTop);
         }
 
-        // Prints the user sing in the correspondent place of the screen.  
-        private void WritePlayerSing(ConsoleKeyInfo playerKeyInfo)
+        // Prints the user sign in the correspondent place of the screen.  
+        private void WritePlayerSign(ConsoleKeyInfo playerKeyInfo)
         {
             Console.Write(playerKeyInfo.KeyChar.ToString().ToUpper());
             gameBoard[currentPositionY][currentPositionX] = Char.ToUpper(playerKeyInfo.KeyChar);
@@ -396,11 +398,11 @@ namespace TikTakToe
         {
             int oldRow = Console.CursorTop, oldCollumn = Console.CursorLeft;
 
-            // Score Player1 sing.
+            // Score Player1 sign.
             Console.SetCursorPosition((scorePlayer1String.Length + 1) / 2 + distanceBetweenCollumns + scorePlayer1String.Length, verticalCenteringValue + distanceBetweenRows);
             Console.Write(scorePlayer1);
 
-            // Score Player2 sing.
+            // Score Player2 sign.
             Console.SetCursorPosition((scorePlayer2String.Length + 1) / 2 + distanceBetweenCollumns + scorePlayer2String.Length, verticalCenteringValue + (2 * distanceBetweenRows));
             Console.Write(scorePlayer2);
 
@@ -435,8 +437,8 @@ namespace TikTakToe
             return turnHasPassed;
         }
 
-        // Gets the input of the user (the user sing or the restart/escape option) and then
-        // it checks to only allow the sing of the current turn and to only allow it if the position if empty.
+        // Gets the input of the user (the user sign or the restart/escape options) and then
+        // it checks to only allow the sign of the current player and to only allow it if the position if empty.
         private bool InputAnswer(ConsoleKeyInfo InputKey)
         {
             bool turnHasPassed = false;
@@ -452,14 +454,14 @@ namespace TikTakToe
             }
             else if (gameBoard[currentPositionY][currentPositionX] == ' ' && InputKey.Key.Equals(currentPlayerKeyInfo.Key))
             {
-                WritePlayerSing(InputKey);
+                WritePlayerSign(InputKey);
                 
                 turnHasPassed = UpdateScoresAndCheckWinners();
             }
             return turnHasPassed;
         }
 
-        // Changes the current turn and also the message with the sing of that turn.
+        // Changes the current turn and also the message with the sign of that turn.
         private void UpdateCurrentPlayer()
         {
             Console.BackgroundColor = currentBackgroundColor;
@@ -475,7 +477,7 @@ namespace TikTakToe
             {
                 currentPlayerKeyInfo = firstPlayerKeyInfo;
             }
-            // Player turn sing.        We only overwrite the current player sing, thats why we add turnString.Length, to set the Console Cursor to the position of the sign.
+            // Player turn sign.        We only overwrite the current player sign, thats why we add turnString.Length, to set the Console Cursor to the position of the sign.
             Console.SetCursorPosition(((Console.BufferWidth - turnString.Length) / 2) + turnString.Length, verticalCenteringValue / 2);
             Console.Write(Char.ToUpper(currentPlayerKeyInfo.KeyChar));
             Console.SetCursorPosition(oldCollumn, oldRow);
@@ -483,7 +485,8 @@ namespace TikTakToe
 
 
         // This is part of the IA implementation. In this case I have used the Minimax algorithm.
-        // We give a value of 1 to a winning end, 0 to tie and -1 if the IA lose. 
+        // We give a value of int.MaxValue to a winning end, 0 to tie and int.MinValue if the IA lose.
+        // I use those values because subtract or add the depth to the punctuation to urge the AI to win as soon as possible.
         private int MiniMax(char[][] board, int depth, bool isMaximizing)
         {
             GameStatus currentState = CheckForWiners(gameBoard);
@@ -540,8 +543,8 @@ namespace TikTakToe
 
         }
 
-        // Use the MiniMax algorithm to find the best possible move and then it does it.
-        // Returns the boolean of the UpdateScoreAndCheckForWinners();
+        // We use the MiniMax algorithm to find the best possible move and then we do it.
+        // Returns the boolean of the UpdateScoreAndCheckForWinners() so we can check if there is already a winner or a tie situation.
         private bool AIMove()
         {
             int oldTop = Console.CursorTop, oldLeft = Console.CursorLeft;
