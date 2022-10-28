@@ -6,7 +6,7 @@
 * [Technologies](#technologies)
 
 ## About the game
-Is the clasic Tik Tak Toe game. You play in the console. It has some features:
+It is the classic Tik Tak Toe game. You play in the console. It has some features:
 
   1. You can choose your sign at the start of each match (either 'X' or 'O').
   2. You can choose to play against other human player or against an AI.
